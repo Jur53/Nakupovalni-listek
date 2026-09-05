@@ -26,3 +26,15 @@ class CenaDetajlOut(BaseModel):
 
     class Config:
         from_attributes = True
+
+class PrimerjavaIn(BaseModel):
+    izdelek_ids: list[int]
+
+class SkupnaCenaTrgovina(BaseModel):
+    ime_trgovina: str
+    skupna_cena: float
+
+class PrimerjavaOut(BaseModel):
+    cene_po_trgovinah: list[SkupnaCenaTrgovina]
+    najcenejša_trgovina: str 
+    prihranek: float 
