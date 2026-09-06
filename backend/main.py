@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from database import get_db
 from sqlalchemy import func
@@ -98,3 +98,59 @@ def ustvari_seznam(zahteva: schemas.SeznamIn, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(nov_seznam)
     return nov_seznam
+
+
+@app.post("/seznami/{seznam_id}/izdelki", response_model=schemas.SeznamIzdelekOut, status_code=201)
+def dodaj_izdelek_na_seznam(seznam_id: int, zahteva: schemas.SeznamIzdelekIn, db: Session = Depends(get_db)):
+    seznam = db.query(models.Seznam).filter(models.Seznam.id == seznam_id).first()
+    if not seznam:
+        raise HTTPException(status_code=404, detail="Seznam ne obstaja")
+
+    izdelek = db.query(models.Izdelek).filter(models.Izdelek.id == zahteva.izdelek_id).first()
+    if not izdelek:
+        raise HTTPException(status_code=404, detail="Izdelek ne obstaja")
+
+    nov_vnos = models.Seznam_izdelek(
+        seznam_id=seznam_id,
+        izdelek_id=zahteva.izdelek_id,
+        kolicina=zahteva.kolicina
+    )
+    db.add(nov_vnos)
+    db.commit()
+    db.refresh(nov_vnos)
+    return nov_vnos
+
+
+@app.get("/seznami/{seznam_id}", response_model=schemas.SeznamDetajlOut)
+def get_seznam(seznam_id: int, db: Session = Depends(get_db)):
+    seznam = db.query(models.Seznam).filter(models.Seznam.id == seznam_id).first()
+    if not seznam:
+        raise HTTPException(status_code=404, detail="Seznam ne obstaja")
+
+    vnosi = db.query(
+        models.Izdelek.ime.label("ime_izdelek"),
+        models.Izdelek.kategorija,
+        models.Izdelek.enota,
+        models.Seznam_izdelek.kolicina
+    ).join(
+        models.Izdelek, models.Seznam_izdelek.izdelek_id == models.Izdelek.id
+    ).filter(
+        models.Seznam_izdelek.seznam_id == seznam_id
+    ).all()
+
+    izdelki = [
+        schemas.SeznamIzdelekDetajl(
+            ime_izdelek=v.ime_izdelek,
+            kategorija=v.kategorija,
+            enota=v.enota,
+            kolicina=v.kolicina
+        )
+        for v in vnosi
+    ]
+
+    return schemas.SeznamDetajlOut(
+        id=seznam.id,
+        ime=seznam.ime,
+        ustvarjen=seznam.ustvarjen,
+        izdelki=izdelki
+    )

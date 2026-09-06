@@ -55,6 +55,31 @@ class SeznamOut(BaseModel):
     id: int
     ime: str | None
     ustvarjen: datetime
-    
+
     class Config:
         from_attributes = True
+
+class SeznamIzdelekIn(BaseModel):
+    izdelek_id: int
+    kolicina: int = 1
+
+class SeznamIzdelekOut(BaseModel):
+    id: int
+    seznam_id: int
+    izdelek_id: int
+    kolicina: int
+
+    class Config:
+        from_attributes = True
+
+class SeznamIzdelekDetajl(BaseModel):
+    ime_izdelek: str
+    kategorija: str | None
+    enota: str | None
+    kolicina: int
+
+class SeznamDetajlOut(BaseModel):
+    id: int
+    ime: str | None
+    ustvarjen: datetime
+    izdelki: list[SeznamIzdelekDetajl]
