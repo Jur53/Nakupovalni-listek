@@ -34,7 +34,17 @@ class SkupnaCenaTrgovina(BaseModel):
     ime_trgovina: str
     skupna_cena: float
 
+class IzdelekNajcenejsi(BaseModel):
+    ime_izdelek: str
+    ime_trgovina: str
+    cena: float
+
 class PrimerjavaOut(BaseModel):
     cene_po_trgovinah: list[SkupnaCenaTrgovina]
     najcenejsa_trgovina: str 
     prihranek: float 
+    razdeljen_seznam: list[IzdelekNajcenejsi]
+    skupna_cena_razdeljeno: float
+    dodatni_prihranek: float
+
+

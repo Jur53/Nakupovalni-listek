@@ -42,15 +42,51 @@ def primerjaj_cene(zahteva: schemas.PrimerjavaIn, db: Session = Depends(get_db))
 
     cene_po_trgovinah = [
         schemas.SkupnaCenaTrgovina(ime_trgovina=r.ime_trgovina, skupna_cena=round(float(r.skupna_cena), 2))
-        for r in rezultati
+        for r in rezultati 
     ]
 
     najcenejsa = min(cene_po_trgovinah, key=lambda x: x.skupna_cena)
     najdrazja = max(cene_po_trgovinah, key=lambda x: x.skupna_cena)
     prihranek = round(najdrazja.skupna_cena - najcenejsa.skupna_cena, 2)
 
+    podrobne_cene = db.query(
+        models.Izdelek.ime.label("ime_izdelek"),
+        models.Trgovina.ime.label("ime_trgovina"),
+        models.Cena.cena
+    ).join(
+        models.Izdelek, models.Cena.izdelek_id == models.Izdelek.id
+    ).join(
+        models.Trgovina, models.Cena.trgovina_id == models.Trgovina.id
+    ).filter(
+        models.Cena.izdelek_id.in_(zahteva.izdelek_ids)
+    ).all()
+
+    najcenejsi_po_izdelku = {}
+    for vrstica in podrobne_cene:
+        if vrstica.ime_izdelek not in najcenejsi_po_izdelku:
+            najcenejsi_po_izdelku[vrstica.ime_izdelek] = vrstica
+        elif vrstica.cena < najcenejsi_po_izdelku[vrstica.ime_izdelek].cena:
+            najcenejsi_po_izdelku[vrstica.ime_izdelek] = vrstica
+
+    razdeljen_seznam = [
+        schemas.IzdelekNajcenejsi(
+            ime_izdelek = v.ime_izdelek,
+            ime_trgovina = v.ime_trgovina,
+            cena = float(v.cena)
+        )
+        for v in najcenejsi_po_izdelku.values()
+    ]
+
+    skupna_cena_razdeljeno = round(sum(i.cena for i in razdeljen_seznam), 2)
+
+    dodatni_prihranek = round(najcenejsa.skupna_cena - skupna_cena_razdeljeno, 2)
+
     return schemas.PrimerjavaOut(
         cene_po_trgovinah=cene_po_trgovinah,
         najcenejsa_trgovina=najcenejsa.ime_trgovina,
-        prihranek=prihranek
+        prihranek=prihranek,
+        razdeljen_seznam=razdeljen_seznam,
+        skupna_cena_razdeljeno=skupna_cena_razdeljeno,
+        dodatni_prihranek=dodatni_prihranek
     )
+
