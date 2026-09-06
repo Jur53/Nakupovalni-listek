@@ -90,3 +90,11 @@ def primerjaj_cene(zahteva: schemas.PrimerjavaIn, db: Session = Depends(get_db))
         dodatni_prihranek=dodatni_prihranek
     )
 
+
+@app.post("/seznami", response_model=schemas.SeznamOut, status_code=201)
+def ustvari_seznam(zahteva: schemas.SeznamIn, db: Session = Depends(get_db)):
+    nov_seznam = models.Seznam(ime=zahteva.ime)
+    db.add(nov_seznam)
+    db.commit()
+    db.refresh(nov_seznam)
+    return nov_seznam

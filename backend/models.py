@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Numeric, Date, DateTime
+from sqlalchemy import Column, Integer, String, ForeignKey, Numeric, Date, DateTime, func
 from database import Base
 
 
@@ -33,7 +33,7 @@ class Seznam(Base):
 
     id = Column(Integer, primary_key=True)
     ime = Column(String(100))
-    ustvarjen = Column(DateTime, nullable=False)
+    ustvarjen = Column(DateTime, nullable=False, server_default=func.now())
 
 class Seznam_izdelek(Base):
     __tablename__ = "seznam_izdelki"

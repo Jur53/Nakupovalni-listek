@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from datetime import date
+from datetime import datetime
 
 
 class TrgovinaOut(BaseModel):
@@ -47,4 +48,13 @@ class PrimerjavaOut(BaseModel):
     skupna_cena_razdeljeno: float
     dodatni_prihranek: float
 
+class SeznamIn(BaseModel):
+    ime: str | None = None
 
+class SeznamOut(BaseModel):
+    id: int
+    ime: str | None
+    ustvarjen: datetime
+    
+    class Config:
+        from_attributes = True
