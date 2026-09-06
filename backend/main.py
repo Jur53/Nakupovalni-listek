@@ -41,13 +41,13 @@ def primerjaj_cene(zahteva: schemas.PrimerjavaIn, db: Session = Depends(get_db))
     ).all()
 
     cene_po_trgovinah = [
-        schemas.SkupnaCenaTrgovina(ime_trgovina=r.ime_trgovina, skupna_cena=float(r.skupna_cena))
+        schemas.SkupnaCenaTrgovina(ime_trgovina=r.ime_trgovina, skupna_cena=round(float(r.skupna_cena), 2))
         for r in rezultati
     ]
 
     najcenejsa = min(cene_po_trgovinah, key=lambda x: x.skupna_cena)
     najdrazja = max(cene_po_trgovinah, key=lambda x: x.skupna_cena)
-    prihranek = najdrazja.skupna_cena - najcenejsa.skupna_cena
+    prihranek = round(najdrazja.skupna_cena - najcenejsa.skupna_cena, 2)
 
     return schemas.PrimerjavaOut(
         cene_po_trgovinah=cene_po_trgovinah,

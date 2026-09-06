@@ -36,5 +36,5 @@ class SkupnaCenaTrgovina(BaseModel):
 
 class PrimerjavaOut(BaseModel):
     cene_po_trgovinah: list[SkupnaCenaTrgovina]
-    najcenejša_trgovina: str 
+    najcenejsa_trgovina: str 
     prihranek: float 
