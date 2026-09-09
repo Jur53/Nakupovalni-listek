@@ -100,6 +100,7 @@ def primerjaj_cene(zahteva: schemas.PrimerjavaIn, db: Session = Depends(get_db))
     )
 
 
+
 @app.post("/seznami", response_model=schemas.SeznamOut, status_code=201)
 def ustvari_seznam(zahteva: schemas.SeznamIn, db: Session = Depends(get_db)):
     nov_seznam = models.Seznam(ime=zahteva.ime)
@@ -163,3 +164,7 @@ def get_seznam(seznam_id: int, db: Session = Depends(get_db)):
         ustvarjen=seznam.ustvarjen,
         izdelki=izdelki
     )
+
+@app.get("/seznami", response_model=list[schemas.SeznamOut])
+def get_seznami(db: Session = Depends(get_db)):
+    return db.query(models.Seznam).all()

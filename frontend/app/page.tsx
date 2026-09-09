@@ -39,6 +39,8 @@ export default function Home() {
   const [izdelki, setIzdelki] = useState<Izdelek[]>([]);
   const [izbrani, setIzbrani] = useState<number[]>([]);
   const [rezultat, setRezultat] = useState<PrimerjavaOut | null>(null);
+  const [sporocilo, setSporocilo] = useState<string | null>(null);
+  const [imeSeznama, setImeSeznama] = useState("");
 
   useEffect(() => {
     fetch("http://localhost:8000/trgovine")
@@ -70,6 +72,27 @@ export default function Home() {
       .then((data) => setRezultat(data));
   }
 
+  async function shraniSeznam() {
+    const odgovor = await fetch("http://localhost:8000/seznami", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ime: imeSeznama }),
+    });
+    const novSeznam = await odgovor.json();
+
+    for (const izdelekId of izbrani) {
+      await fetch(`http://localhost:8000/seznami/${novSeznam.id}/izdelki`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ izdelek_id: izdelekId }),
+      });
+    }
+
+    setSporocilo("Seznam shranjen!");
+    setImeSeznama("");
+    setTimeout(() => setSporocilo(null), 3000);
+  }
+
   return (
     <div className="p-8 max-w-2xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">Trgovine</h1>
@@ -96,13 +119,33 @@ export default function Home() {
         ))}
       </ul>
 
-      <button
-        onClick={primerjajCene}
-        disabled={izbrani.length === 0}
-        className="px-4 py-2 rounded-lg bg-blue-600 text-white font-medium disabled:bg-gray-300 disabled:text-gray-500 hover:bg-blue-700 disabled:cursor-not-allowed"
-      >
-        Primerjaj cene
-      </button>
+      <input
+        type="text"
+        value={imeSeznama}
+        onChange={(e) => setImeSeznama(e.target.value)}
+        placeholder="Ime seznama"
+        className="border border-gray-300 rounded-lg px-3 py-2 mb-3 w-full"
+      />
+
+      <div className="flex items-center gap-3">
+        <button
+          onClick={primerjajCene}
+          disabled={izbrani.length === 0}
+          className="px-4 py-2 rounded-lg bg-blue-600 text-white font-medium disabled:bg-gray-300 disabled:text-gray-500 hover:bg-blue-700 disabled:cursor-not-allowed"
+        >
+          Primerjaj cene
+        </button>
+
+        <button
+          onClick={shraniSeznam}
+          disabled={izbrani.length === 0}
+          className="px-4 py-2 rounded-lg bg-green-600 text-white font-medium disabled:bg-gray-300 disabled:cursor-not-allowed"
+        >
+          Shrani seznam
+        </button>
+      </div>
+
+      {sporocilo && <p className="text-green-700 mt-2">{sporocilo}</p>}
 
       {rezultat && (
         <div className="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
