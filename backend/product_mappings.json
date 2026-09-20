@@ -1,0 +1,18 @@
+[
+  {
+    "key": "alpsko-mleko-1-5-1l",
+    "name": "Alpsko mleko 1,5% 1 l",
+    "category": "Mleko",
+    "unit": "1 l",
+    "members": [
+      {
+        "retailer": "Mercator",
+        "external_id": "113723"
+      },
+      {
+        "retailer": "Tuš",
+        "external_id": "[\"310407\",\"3838800024967\"]"
+      }
+    ]
+  }
+]

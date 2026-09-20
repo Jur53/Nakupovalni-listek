@@ -1,0 +1,1 @@
+"""Nakupovalni listek backend package."""

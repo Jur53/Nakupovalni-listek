@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Pametna košarica frontend
 
-## Getting Started
+Next.js 16 frontend for selecting grocery quantities, comparing store totals, splitting a purchase, and saving authenticated shopping lists.
 
-First, run the development server:
+## Local development
+
+Requires Node.js 22.22.2, Node.js 24.15 or newer in the 24.x line, or Node.js
+26 or newer, plus npm 11.19.0.
 
 ```bash
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The browser only calls same-origin paths under `/api/backend/*`. Explicit Next.js
+route handlers proxy the supported public API calls and keep access tokens in an
+`httpOnly`, same-site cookie for authenticated calls. Unknown backend paths are
+not proxied.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Set the server-only `BACKEND_URL` to the backend origin. Development defaults to
+`http://127.0.0.1:8000`; production requires an explicit HTTPS URL, except for a
+loopback backend on the same host. It must not contain credentials, a path,
+query parameters, or a fragment.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+BACKEND_URL=http://127.0.0.1:8000 npm run dev
+```
 
-## Learn More
+## Verification
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run lint
+npm run typecheck
+npm test
+npm run build
+```

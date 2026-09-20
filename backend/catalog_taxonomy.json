@@ -1,0 +1,281 @@
+{
+  "version": 1,
+  "categories": [
+    {
+      "slug": "produce",
+      "name": "Sadje in zelenjava",
+      "children": [
+        {"slug": "fresh-fruit", "name": "Sveže sadje"},
+        {"slug": "fresh-vegetables", "name": "Sveža zelenjava"},
+        {"slug": "salads", "name": "Solate"},
+        {"slug": "herbs", "name": "Zelišča"}
+      ]
+    },
+    {
+      "slug": "meat-fish-deli",
+      "name": "Meso, ribe in delikatesa",
+      "children": [
+        {"slug": "fresh-meat", "name": "Sveže meso"},
+        {"slug": "poultry", "name": "Perutnina"},
+        {"slug": "fish-seafood", "name": "Ribe in morski sadeži"},
+        {"slug": "cured-meat", "name": "Salame in suhomesnati izdelki"},
+        {"slug": "deli", "name": "Delikatesa"}
+      ]
+    },
+    {
+      "slug": "dairy-eggs-chilled",
+      "name": "Mlečni izdelki, jajca in hlajeno",
+      "children": [
+        {"slug": "milk", "name": "Mleko"},
+        {"slug": "yogurt", "name": "Jogurti"},
+        {"slug": "cheese", "name": "Sir"},
+        {"slug": "eggs", "name": "Jajca"},
+        {"slug": "butter-cream", "name": "Maslo in smetana"},
+        {"slug": "chilled-desserts", "name": "Hlajene sladice"},
+        {"slug": "plant-alternatives", "name": "Rastlinski nadomestki"}
+      ]
+    },
+    {
+      "slug": "bakery",
+      "name": "Pekarna",
+      "children": [
+        {"slug": "bread", "name": "Kruh"},
+        {"slug": "rolls", "name": "Pecivo in žemlje"},
+        {"slug": "sweet-bakery", "name": "Sladko pekovsko pecivo"}
+      ]
+    },
+    {
+      "slug": "pantry",
+      "name": "Shramba",
+      "children": [
+        {"slug": "pasta-noodles", "name": "Testenine in rezanci"},
+        {"slug": "rice-grains", "name": "Riž in žita"},
+        {"slug": "canned-jarred", "name": "Konzerve in vložnine"},
+        {"slug": "oils-vinegar", "name": "Olje in kis"},
+        {"slug": "sauces-condiments", "name": "Omake in začimbe"},
+        {"slug": "baking-ingredients", "name": "Sestavine za peko"},
+        {"slug": "soups-broths", "name": "Juhe in osnove"}
+      ]
+    },
+    {
+      "slug": "breakfast",
+      "name": "Zajtrk",
+      "children": [
+        {"slug": "cereals-muesli", "name": "Kosmiči in müsli"},
+        {"slug": "jams-honey", "name": "Marmelade in med"},
+        {"slug": "sweet-spreads", "name": "Sladki namazi"},
+        {"slug": "coffee-tea-cocoa", "name": "Kava, čaj in kakav"}
+      ]
+    },
+    {
+      "slug": "frozen",
+      "name": "Zamrznjeno",
+      "children": [
+        {"slug": "frozen-fruit-vegetables", "name": "Zamrznjeno sadje in zelenjava"},
+        {"slug": "frozen-fish-meat", "name": "Zamrznjene ribe in meso"},
+        {"slug": "frozen-pizza", "name": "Zamrznjene pice"},
+        {"slug": "ice-cream", "name": "Sladoled"},
+        {"slug": "frozen-meals", "name": "Zamrznjene pripravljene jedi"}
+      ]
+    },
+    {
+      "slug": "prepared-food",
+      "name": "Pripravljene jedi",
+      "children": [
+        {"slug": "ready-meals", "name": "Gotove jedi"},
+        {"slug": "fresh-pizza-pasta", "name": "Sveže pice in testenine"},
+        {"slug": "sandwiches-snacks", "name": "Sendviči in malice"},
+        {"slug": "prepared-salads", "name": "Pripravljene solate"}
+      ]
+    },
+    {
+      "slug": "sweets-snacks",
+      "name": "Sladkarije in prigrizki",
+      "children": [
+        {"slug": "chocolate", "name": "Čokolada"},
+        {"slug": "candy", "name": "Bonboni"},
+        {"slug": "biscuits-wafers", "name": "Piškoti in napolitanke"},
+        {"slug": "salty-snacks", "name": "Slani prigrizki"},
+        {"slug": "nuts-dried-fruit", "name": "Oreščki in suho sadje"}
+      ]
+    },
+    {
+      "slug": "nonalcoholic-drinks",
+      "name": "Brezalkoholne pijače",
+      "children": [
+        {"slug": "water", "name": "Voda"},
+        {"slug": "soft-drinks", "name": "Gazirane in osvežilne pijače"},
+        {"slug": "juice", "name": "Sokovi"},
+        {"slug": "energy-sports-drinks", "name": "Energijske in športne pijače"},
+        {"slug": "syrups", "name": "Sirupi"}
+      ]
+    },
+    {
+      "slug": "alcohol",
+      "name": "Alkoholne pijače",
+      "children": [
+        {"slug": "beer-cider", "name": "Pivo in cider"},
+        {"slug": "wine-sparkling", "name": "Vino in penina"},
+        {"slug": "spirits", "name": "Žgane pijače"}
+      ]
+    },
+    {
+      "slug": "babies",
+      "name": "Dojenčki in otroci",
+      "children": [
+        {"slug": "baby-food", "name": "Otroška hrana"},
+        {"slug": "diapers-wipes", "name": "Plenice in robčki"},
+        {"slug": "baby-care", "name": "Nega dojenčka"}
+      ]
+    },
+    {
+      "slug": "personal-care",
+      "name": "Osebna nega",
+      "children": [
+        {"slug": "hair-care", "name": "Nega las"},
+        {"slug": "body-care", "name": "Nega telesa"},
+        {"slug": "oral-care", "name": "Ustna nega"},
+        {"slug": "feminine-care", "name": "Ženska higiena"},
+        {"slug": "shaving-deodorants", "name": "Britje in dezodoranti"}
+      ]
+    },
+    {
+      "slug": "home-cleaning",
+      "name": "Dom in čiščenje",
+      "children": [
+        {"slug": "laundry", "name": "Pranje perila"},
+        {"slug": "dishwashing", "name": "Pomivanje posode"},
+        {"slug": "household-cleaners", "name": "Čistila"},
+        {"slug": "paper-products", "name": "Papirna galanterija"},
+        {"slug": "bags-foil-storage", "name": "Vrečke, folije in shranjevanje"}
+      ]
+    },
+    {
+      "slug": "pets",
+      "name": "Hišni ljubljenčki",
+      "children": [
+        {"slug": "dog-food-care", "name": "Psi"},
+        {"slug": "cat-food-care", "name": "Mačke"},
+        {"slug": "other-pets", "name": "Drugi ljubljenčki"}
+      ]
+    },
+    {
+      "slug": "review-out-of-scope",
+      "name": "Izven obsega - pregled",
+      "is_visible": false,
+      "children": [
+        {"slug": "clothing", "name": "Oblačila", "is_visible": false},
+        {"slug": "tools", "name": "Orodje", "is_visible": false},
+        {"slug": "garden", "name": "Vrt", "is_visible": false},
+        {"slug": "seasonal-merchandise", "name": "Sezonsko blago", "is_visible": false},
+        {"slug": "other-merchandise", "name": "Drugo neživilsko blago", "is_visible": false}
+      ]
+    }
+  ],
+  "source_category_rules": [
+    {"category": "clothing", "keywords": ["oblacila", "obutev", "tekstil"]},
+    {"category": "tools", "keywords": ["orodje", "elektricno orodje", "avto program", "avtomobilska oprema"]},
+    {"category": "garden", "keywords": ["vrt in okolica", "vrtnarjenje", "vrtni program", "cvetje in vrt", "semena sadike in cebulice", "cvetje in rastline", "vse za vrt"]},
+    {"category": "seasonal-merchandise", "keywords": ["sezonska ponudba", "bozicni program", "velikonocni program", "solske potrebscine"]},
+    {"category": "laundry", "keywords": ["dom pranje perila", "pralna sredstva in nega perila"]},
+    {"category": "dishwashing", "keywords": ["detergenti za pomivanje posode", "detergetni za pomivanje posode"]},
+    {"category": "paper-products", "keywords": ["kuhinjske brisace in servieti"]},
+    {"category": "bags-foil-storage", "keywords": ["dom vrecke"]},
+    {"category": "household-cleaners", "keywords": ["dom cistila", "dom osvezilci", "oprema za ciscenje in delo", "dom krpe in gobe", "odstranjevalci insektov", "zascita pred insekti"]},
+    {"category": "other-merchandise", "keywords": ["igrace in darila", "darilni program", "darilni seti", "dom gospodinjski pripomocki", "dom dekoracija", "dom galanterija", "posoda in pladnji", "dom svece", "kozarci skodelice loncki in vrci", "sport in prosti cas", "sanitarna oprema in dodatki", "jedilni servis", "dom pekaci", "baterije zarnice in svetila", "gospodinjski aparati", "elektricni aparati in pripomocki", "elektro pripomocki", "revije in casopisi", "telefonija", "tekstilna in usnjena galanterija", "plin in dodatki", "plasticna galanterija", "pripomocki in nega obutve", "ogrevanje", "vzigalniki in tobacni izdelki", "drugi gospodinjski izdelki"]},
+    {"category": "frozen", "keywords": ["zamrznjena hrana", "zamrznjeni izdelki", "zamrznjeno"]},
+    {"category": "dairy-eggs-chilled", "keywords": ["mlecni izdelki in jajca", "mlecni izdelki", "mleko in mlecni izdelki", "hlajeni izdelki"]},
+    {"category": "fresh-fruit", "keywords": ["sveze sadje", "sadje"]},
+    {"category": "fresh-vegetables", "keywords": ["sveza zelenjava", "zelenjava"]},
+    {"category": "produce", "keywords": ["sadje in zelenjava"]},
+    {"category": "fish-seafood", "keywords": ["ribe in morski sadezi", "sveze ribe"]},
+    {"category": "cured-meat", "keywords": ["salame in narezki", "suhomesnati izdelki", "meso delikatesa in ribe delikatesa", "klobase in narezki"]},
+    {"category": "fresh-meat", "keywords": ["meso delikatesa in ribe meso", "goveje meso", "svinjina"]},
+    {"category": "poultry", "keywords": ["meso in perutnina perutnina"]},
+    {"category": "sandwiches-snacks", "keywords": ["meso delikatesa in ribe sendvici"]},
+    {"category": "deli", "keywords": ["hlajene specialitete in solate"]},
+    {"category": "meat-fish-deli", "keywords": ["meso ribe in delikatesa", "meso in mesni izdelki", "meso mesni izdelki in ribe", "sveze meso mesni izdelki in ribe", "meso delikatesa in ribe", "mesnica"]},
+    {"category": "bakery", "keywords": ["pekovski izdelki", "kruh in pekovsko pecivo", "pekarna"]},
+    {"category": "canned-jarred", "keywords": ["konzervirana hrana", "zaloga hrane vlozeno"]},
+    {"category": "baking-ingredients", "keywords": ["zaloga hrane sestavine za peko"]},
+    {"category": "sauces-condiments", "keywords": ["olja zacimbe in omake omake in zacimbe"]},
+    {"category": "oils-vinegar", "keywords": ["olja zacimbe in omake olja in mascobe"]},
+    {"category": "pantry", "keywords": ["osnovna zivila", "shramba", "trajna zivila", "testenine juhe riz in omake", "hrana tujih dezel", "mednarodna hrana", "riz testenine in strocnice"]},
+    {"category": "breakfast", "keywords": ["zajtrk", "kosmici in namazi"]},
+    {"category": "prepared-food", "keywords": ["pripravljene jedi", "gotove jedi", "hitri obroki"]},
+    {"category": "salty-snacks", "keywords": ["slani prigrizki in aperitivi jedi", "sladko in slano slani prigrizki"]},
+    {"category": "sweets-snacks", "keywords": ["sladkarije in prigrizki", "slani in sladki prigrizki", "sladki in slani prigrizki", "cokolada in drugi sladki program", "sladko in slano sladki prigrizki"]},
+    {"category": "nonalcoholic-drinks", "keywords": ["brezalkoholne pijace", "voda sokovi in pijace"]},
+    {"category": "alcohol", "keywords": ["alkoholne pijace", "pivo vino in zgane pijace"]},
+    {"category": "nonalcoholic-drinks", "keywords": ["pijace"]},
+    {"category": "babies", "keywords": ["dojencki in otroci", "otroski program"]},
+    {"category": "personal-care", "keywords": ["osebna nega", "kozmetika in higiena"]},
+    {"category": "home-cleaning", "keywords": ["dom in ciscenje", "cistila in gospodinjstvo", "gospodinjstvo"]},
+    {"category": "pets", "keywords": ["hisni ljubljencki", "male zivali"]},
+    {"category": "milk", "keywords": ["mleko"]},
+    {"category": "yogurt", "keywords": ["jogurti", "jogurt"]},
+    {"category": "cheese", "keywords": ["siri", "sir"]},
+    {"category": "eggs", "keywords": ["jajca"]},
+    {"category": "bread", "keywords": ["kruh"]},
+    {"category": "coffee-tea-cocoa", "keywords": ["kava caj in kakav", "kava in caj"]},
+    {"category": "ice-cream", "keywords": ["sladoled"]},
+    {"category": "water", "keywords": ["voda"]},
+    {"category": "beer-cider", "keywords": ["pivo in cider", "pivo"]},
+    {"category": "wine-sparkling", "keywords": ["vino in penina", "vino"]}
+  ],
+  "product_name_rules": [
+    {"category": "clothing", "keywords": ["majica", "hlace", "nogavice", "jakna", "cevlji"]},
+    {"category": "tools", "keywords": ["vrtalnik", "izvijac", "klešče", "orodje"]},
+    {"category": "garden", "keywords": ["zemlja za roze", "gnojilo", "vrtna cev", "cvetlicni lonec"]},
+    {"category": "seasonal-merchandise", "keywords": ["bozicni okrasek", "novoletni okrasek", "velikonocni okrasek", "pustni kostum"]},
+    {"category": "other-merchandise", "keywords": ["ponev", "posoda za kuhanje", "podaljsek", "baterijski vlozki"]},
+    {"category": "diapers-wipes", "keywords": ["plenice", "otroski robcki", "vlazilni robcki baby"]},
+    {"category": "baby-food", "keywords": ["otroska kasica", "mlecna formula"]},
+    {"category": "cat-food-care", "keywords": ["macke", "macja hrana", "macji pesek"]},
+    {"category": "dog-food-care", "keywords": ["pasja hrana", "za pse", "pasji priboljsek"]},
+    {"category": "laundry", "keywords": ["pralni prasek", "pralni gel", "mehcalec"]},
+    {"category": "dishwashing", "keywords": ["tablete za pomivalni", "detergent za posodo"]},
+    {"category": "paper-products", "keywords": ["toaletni papir", "papirnate brisace", "robcki"]},
+    {"category": "household-cleaners", "keywords": ["cistilo", "razkuzilo", "belilo"]},
+    {"category": "oral-care", "keywords": ["zobna pasta", "zobna scetka", "ustna voda"]},
+    {"category": "hair-care", "keywords": ["sampon", "balzam za lase"]},
+    {"category": "feminine-care", "keywords": ["tampon", "higienski vlozki"]},
+    {"category": "plant-alternatives", "keywords": ["ovseni napitek", "sojin napitek", "mandljev napitek"]},
+    {"category": "milk", "keywords": ["mleko"]},
+    {"category": "yogurt", "keywords": ["jogurt", "kefir"]},
+    {"category": "cheese", "keywords": ["sir", "mozzarella", "mocarela"]},
+    {"category": "eggs", "keywords": ["jajca"]},
+    {"category": "butter-cream", "keywords": ["maslo", "smetana"]},
+    {"category": "fresh-fruit", "keywords": ["jabolko", "banana", "pomaranca", "limona", "grozdje", "jagode"]},
+    {"category": "fresh-vegetables", "keywords": ["paradiznik", "krompir", "cebula", "paprika", "kumara", "korenje"]},
+    {"category": "poultry", "keywords": ["piscanec", "puranje", "perutnina"]},
+    {"category": "fresh-meat", "keywords": ["govedina", "svinjina", "mleto meso", "zrezek"]},
+    {"category": "fish-seafood", "keywords": ["losos", "tuna", "postrv", "kozice"]},
+    {"category": "cured-meat", "keywords": ["salama", "prsut", "sunka", "hrenovka", "hrenovke", "klobasa", "slanina", "mortadela", "panceta", "narezek", "zaseka", "ocvirki", "pasteta"]},
+    {"category": "bread", "keywords": ["kruh", "toast"]},
+    {"category": "rolls", "keywords": ["zemlja", "bageta", "kajzerica"]},
+    {"category": "pasta-noodles", "keywords": ["testenine", "spageti", "rezanci"]},
+    {"category": "rice-grains", "keywords": ["riz", "polenta", "ajdova kasa"]},
+    {"category": "oils-vinegar", "keywords": ["olivno olje", "soncnicno olje", "kis"]},
+    {"category": "cereals-muesli", "keywords": ["kosmici", "muesli", "granola"]},
+    {"category": "coffee-tea-cocoa", "keywords": ["kava", "caj", "kakav"]},
+    {"category": "frozen-pizza", "keywords": ["zamrznjena pica"]},
+    {"category": "ice-cream", "keywords": ["sladoled"]},
+    {"category": "frozen", "keywords": ["zamrznjen", "zamrznjena", "zamrznjeno"]},
+    {"category": "ready-meals", "keywords": ["gotova jed", "pripravljena jed"]},
+    {"category": "chocolate", "keywords": ["cokolada"]},
+    {"category": "biscuits-wafers", "keywords": ["piskoti", "napolitanke"]},
+    {"category": "salty-snacks", "keywords": ["cips", "smoki", "krekerji"]},
+    {"category": "water", "keywords": ["mineralna voda", "izvirska voda"]},
+    {"category": "juice", "keywords": ["sok", "nektar"]},
+    {"category": "syrups", "keywords": ["sirup"]},
+    {"category": "energy-sports-drinks", "keywords": ["energijska pijaca", "sportni napitek", "isotonicni napitek"]},
+    {"category": "soft-drinks", "keywords": ["cola", "limonada", "gazirana pijaca"]},
+    {"category": "beer-cider", "keywords": ["pivo", "cider"]},
+    {"category": "wine-sparkling", "keywords": ["vino", "penina"]},
+    {"category": "spirits", "keywords": ["vodka", "viski", "gin", "rum", "zganje"]}
+  ],
+  "fallback_source_category_rules": [
+    {"category": "pantry", "keywords": ["bio in druga posebna hrana", "diabeticna dieteticna in druga posebna prehrana", "ekoloska zivila"]}
+  ]
+}

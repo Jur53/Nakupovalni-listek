@@ -1,0 +1,249 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend-sqlite:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      APP_ENV: test
+      DATABASE_URL: sqlite:///./ci.db
+      JWT_SECRET: ci-only-secret-that-is-long-enough-for-tests
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: |
+            backend/requirements.txt
+            backend/requirements-dev.txt
+      - name: Install backend dependencies
+        run: python -m pip install -r backend/requirements-dev.txt
+      - name: Run fast SQLite tests
+        run: python -m pytest backend/tests
+      - name: Validate SQLite migrations
+        run: |
+          python -m alembic -c backend/alembic.ini upgrade head
+          python -m alembic -c backend/alembic.ini check
+        env:
+          DATABASE_URL: sqlite:///./migration-ci.db
+
+  backend-postgres:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      APP_ENV: test
+      DATABASE_URL: postgresql+psycopg2://postgres:postgres@127.0.0.1:5432/nakupovalni_listek_ci
+      JWT_SECRET: ci-only-secret-that-is-long-enough-for-tests
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: nakupovalni_listek_ci
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d nakupovalni_listek_ci"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: |
+            backend/requirements.txt
+            backend/requirements-dev.txt
+      - name: Install backend dependencies
+        run: python -m pip install -r backend/requirements-dev.txt
+      - name: Prepare populated PostgreSQL migration fixture
+        run: |
+          python -m alembic -c backend/alembic.ini upgrade 0002_reliability
+          python - <<'PY'
+          from datetime import date
+          from sqlalchemy import text
+
+          from backend.database import engine
+
+          with engine.begin() as connection:
+              target_store = connection.scalar(text("INSERT INTO trgovine (ime) VALUES ('SPAR') RETURNING id"))
+              source_store = connection.scalar(text("INSERT INTO trgovine (ime) VALUES ('spar') RETURNING id"))
+              product_id = connection.scalar(text("INSERT INTO izdelki (ime) VALUES ('Migration product') RETURNING id"))
+              connection.execute(
+                  text(
+                      "INSERT INTO retailer_products "
+                      "(trgovina_id, external_id, ime, gtin, izdelek_id) VALUES "
+                      "(:target_store, 'same', 'Old', '4006381333931', :product_id), "
+                      "(:source_store, 'same', 'Fresh', '4006381333931', :product_id)"
+                  ),
+                  {
+                      "target_store": target_store,
+                      "source_store": source_store,
+                      "product_id": product_id,
+                  },
+              )
+              connection.execute(
+                  text(
+                      "INSERT INTO cene (izdelek_id, trgovina_id, cena, datum_zajema) VALUES "
+                      "(:product_id, :target_store, 4.00, :day), "
+                      "(:product_id, :source_store, 3.00, :day)"
+                  ),
+                  {
+                      "product_id": product_id,
+                      "target_store": target_store,
+                      "source_store": source_store,
+                      "day": date(2026, 9, 1),
+                  },
+              )
+          PY
+          python -m alembic -c backend/alembic.ini upgrade 0003_catalog_imports
+          python - <<'PY'
+          from sqlalchemy import text
+
+          from backend.database import engine
+
+          with engine.begin() as connection:
+              target_product = connection.scalar(
+                  text(
+                      "SELECT rp.id FROM retailer_products rp "
+                      "JOIN trgovine t ON t.id = rp.trgovina_id WHERE t.ime = 'SPAR'"
+                  )
+              )
+              source_product = connection.scalar(
+                  text(
+                      "SELECT rp.id FROM retailer_products rp "
+                      "JOIN trgovine t ON t.id = rp.trgovina_id WHERE t.ime = 'spar'"
+                  )
+              )
+              connection.execute(
+                  text(
+                      "INSERT INTO retailer_price_snapshots "
+                      "(retailer_product_id, captured_on, captured_at, effective_price, currency, requires_loyalty) "
+                      "VALUES (:target, '2026-09-01', '2026-09-01 00:00:00', 4.00, 'EUR', false), "
+                      "(:source, '2026-09-01', '2026-09-02 00:00:00', 3.00, 'EUR', false), "
+                      "(:source, '2026-09-02', '2026-09-02 00:00:00', 2.50, 'EUR', false)"
+                  ),
+                  {"target": target_product, "source": source_product},
+              )
+          PY
+      - name: Validate populated PostgreSQL migrations
+        run: |
+          python -m alembic -c backend/alembic.ini upgrade head
+          python -m alembic -c backend/alembic.ini check
+          python - <<'PY'
+          from sqlalchemy import text
+
+          from backend.database import engine
+
+          with engine.connect() as connection:
+              assert connection.scalar(text("SELECT count(*) FROM trgovine WHERE lower(ime) = 'spar'")) == 1
+              assert connection.scalar(text("SELECT count(*) FROM retailer_products WHERE external_id = 'same'")) == 1
+              assert connection.scalar(text("SELECT count(*) FROM retailer_price_snapshots")) == 2
+              assert connection.scalar(text("SELECT min(cena) FROM cene")) == 3
+              assert connection.scalar(text("SELECT count(*) FROM product_gtins WHERE gtin = '4006381333931'")) == 1
+          PY
+      - name: Test backend against PostgreSQL
+        run: |
+          python -m backend.seed
+          python - <<'PY'
+          from fastapi.testclient import TestClient
+          from datetime import date
+          from decimal import Decimal
+          from sqlalchemy import text
+
+          from backend.catalog_import import CatalogProduct, PriceObservation, _lock_key, run_import
+          from backend.database import SessionLocal, engine
+          from backend.main import app
+
+          class IntegrationAdapter:
+              retailer_name = "CI Integration"
+              catalog_is_complete = True
+
+              def fetch_catalog(self):
+                  return [
+                      CatalogProduct(
+                          external_id="ci-product",
+                          name="CI Product",
+                          gtins=("4006381333931",),
+                          price=PriceObservation(effective_price=Decimal("1.23")),
+                      )
+                  ]
+
+          imported = run_import(IntegrationAdapter(), SessionLocal, engine, date.today())
+          assert imported.status == "completed"
+          assert imported.products_seen == 1
+
+          class LockedAdapter(IntegrationAdapter):
+              retailer_name = "CI Locked"
+
+          lock_key = _lock_key(LockedAdapter.retailer_name)
+          with engine.connect() as lock_connection:
+              lock_connection.execute(
+                  text("SELECT pg_advisory_lock(:key)"),
+                  {"key": lock_key},
+              )
+              try:
+                  skipped = run_import(LockedAdapter(), SessionLocal, engine, date.today())
+                  assert skipped.status == "skipped"
+              finally:
+                  lock_connection.execute(
+                      text("SELECT pg_advisory_unlock(:key)"),
+                      {"key": lock_key},
+                  )
+
+          with TestClient(app) as client:
+              ready = client.get("/ready")
+              assert ready.status_code == 200, ready.text
+              stores = client.get("/trgovine")
+              assert stores.status_code == 200, stores.text
+              assert {store["ime"] for store in stores.json()} >= {"Mercator", "SPAR"}
+          PY
+
+  frontend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.22.2"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Provision npm 11.19.0
+        run: npm install --global npm@11.19.0
+      - name: Install frontend dependencies
+        run: npm ci
+      - name: Lint frontend
+        run: npm run lint
+      - name: Type-check frontend
+        run: npm run typecheck
+      - name: Test frontend
+        run: npm test
+      - name: Build frontend
+        run: npm run build
+        env:
+          BACKEND_URL: http://127.0.0.1:8000
